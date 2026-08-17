@@ -45,17 +45,17 @@ def predict_sales_batch():
 
     # Drop identifier columns if present
     cols_to_drop = [c for c in ['Product_Id', 'Store_Id', 'Store_Establishment_Year'] if c in input_data.columns]
-    
+
     # If Store_Age is not present but Store_Establishment_Year is, create it
     if 'Store_Age' not in input_data.columns and 'Store_Establishment_Year' in input_data.columns:
         input_data['Store_Age'] = 2026 - input_data['Store_Establishment_Year']
-    
+
     # Fix Product_Sugar_Content inconsistency
     if 'Product_Sugar_Content' in input_data.columns:
         input_data['Product_Sugar_Content'] = input_data['Product_Sugar_Content'].replace('reg', 'Regular')
-    
+
     predict_data = input_data.drop(columns=cols_to_drop, errors='ignore')
-    
+
     # Also drop target column if present
     if 'Product_Store_Sales_Total' in predict_data.columns:
         predict_data = predict_data.drop(columns=['Product_Store_Sales_Total'])
